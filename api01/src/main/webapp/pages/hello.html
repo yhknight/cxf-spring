@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function getFileInfo() {
+		var file = document.getElementById("f1").files[0];
+
+		if (file) {
+			var fileSize = 0
+			if (file.size > 1024 * 1024) {
+				fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100)
+						.toString()
+						+ 'MB';
+			} else {
+				fileSize = (Math.round(file.size * 100 / 1024) / 100).toString()
+						+ 'KB';
+			}
+			document.getElementById("name").value = file.name + ";";
+			document.getElementById("size").value = fileSize + ";";
+			document.getElementById("type").value = file.type + ";";
+		}
+	}
+
+	function fileUpload() {
+		var file = document.getElementById("f1").files[0];
+		var fd = new FormData();
+		fd.append("fileToUpload", file);
+		fd.append("filename",file.name);
+		var xhr = new XMLHttpRequest();
+		xhr.onload = function() {
+			alert("upload successsfully!")
+		};
+		xhr.onerror = function() {
+			alert("upload unsuccessfully!")
+		};
+		xhr.upload.onprogress = function(e)
+		{
+			if (e.lengthComputable) {
+				var percentComplete = Math.round(e.loaded * 100 / e.total);
+				document.getElementById('progressNum').innerHTML = percentComplete
+						.toString()
+						+ '%';
+			}
+		}
+		;
+		xhr.open("POST", "/api01/uploadServlet")
+		xhr.send(fd);
+	}
+</script>
+</head>
+<body>
+	<div id='d1'>
+		<span>File:</span> <span><input type='file' id='f1'
+			onchange="getFileInfo()"></input></span> <span><input type='button'
+			id='btn' value="upload" onclick="fileUpload()"/></span>
+	</div>
+	<div>
+		<span><input type='text' id='name' disabled></input></span> <span><input
+			type='text' id='size' disabled></input></span> <span><input
+			type='text' id='type' disabled></span>
+	</div>
+
+	<div id="progressNum"></div>
+
+</body>
+</html>

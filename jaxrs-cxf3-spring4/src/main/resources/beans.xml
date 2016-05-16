@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://cxf.apache.org/jaxrs
+	http://cxf.apache.org/schemas/jaxrs.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<context:component-scan base-package="com.rex.cxf" />
+
+	<aop:aspectj-autoproxy/>
+
+	<!--/fruit is a URL prefix -->
+	<jaxrs:server id="fruitServicea" address="/cxf">
+		<jaxrs:serviceBeans>
+			<ref bean="fruitService" />
+		</jaxrs:serviceBeans>
+		<!-- jackson can serialize Java to JSON -->
+		<!-- it will avoid errors such as No message body writer has been found 
+			for class java.util.concurrent.ConcurrentHashMap, ContentType: application/json -->
+		<jaxrs:providers>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider" />
+		</jaxrs:providers>
+	</jaxrs:server>
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>exceptions</value>
+				<value>messages</value>
+			</list>
+		</property>
+		<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+
+	<!-- <aop:config> <aop:aspect ref="exceptionHandler"> <aop:pointcut id="exceptionService" 
+		expression="execution(* com.rex.cxf..*.*(..))"/> <aop:after-throwing pointcut-ref="exceptionService" 
+		method="afterThrowing" throwing="ex" /> </aop:aspect> </aop:config> -->
+
+</beans>

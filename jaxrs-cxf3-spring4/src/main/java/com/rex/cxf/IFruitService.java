@@ -23,7 +23,7 @@ public interface IFruitService {
 
 	// you can test this using curl from the command line.
 	// curl http://localhost/cxf/fruit/
- 
+
 	// @Consumes
 	@Path("/getAll")
 	@GET()
@@ -36,19 +36,21 @@ public interface IFruitService {
 	@GET()
 	@Produces({ "application/json" })
 	Integer getFruitCount(@PathParam("fruit") String fruit);
+
 	// you can test this using curl from the command line.
 	// curl -X PUT http://localhost/cxf/fruit/pineapple/3
 	@POST()
 	@Path("/addFruit")
-	void addFruit(@FormParam("fruit") String fruit, @FormParam("count") String count);
+	void addFruit(@FormParam("fruit") String fruit, @FormParam("count") String count, @Context HttpServletRequest req) throws Exception;
+
 	@PUT()
 	@Path("/updateFruit/{fruit}/{count}")
 	Integer updateFruit(@PathParam("fruit") String name, @PathParam("count") String count);
-	
+
 	@PUT()
 	@Path("/updateFruitBatch/{warehouse}")
 	@Consumes("application/json")
 	@Produces({ "application/json" })
-	Response updateFruit(@PathParam("warehouse") String warehouse, List<fruit> ls);
+	Response updateFruit(@PathParam("warehouse") String warehouse, List<fruit> ls, @Context HttpServletRequest req);
 
 }
