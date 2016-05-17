@@ -1,4 +1,4 @@
-package com.rex.cxf;
+package com.rex.cxf.service;
 
 import java.util.List;
 import java.util.Map;

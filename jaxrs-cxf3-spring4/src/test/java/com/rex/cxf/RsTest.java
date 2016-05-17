@@ -14,8 +14,8 @@ import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.rex.cxf.FruitService;
-import com.rex.cxf.IFruitService;
+import com.rex.cxf.service.FruitService;
+import com.rex.cxf.service.IFruitService;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RsTest extends AbstractBusClientServerTestBase {
