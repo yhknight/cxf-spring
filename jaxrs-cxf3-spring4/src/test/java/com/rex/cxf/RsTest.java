@@ -57,9 +57,9 @@ public class RsTest extends AbstractBusClientServerTestBase {
 
 	@Test
 	public void testAddFruit() throws Exception {
-//		localProxy.addFruit("xx", "333",null);
-//		int ct = localProxy.getFruitCount("xx");
-//		assertEquals(333, ct);
+		localProxy.addFruit("xx", "333",null);
+		int ct = localProxy.getFruitCount("xx");
+		assertEquals(333, ct);
 	}
 	
 	@Test
